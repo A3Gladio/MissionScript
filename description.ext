@@ -1,0 +1,17 @@
+#include "kbf\GarageDisplayDefine.hpp"
+
+class CfgFunctions
+{
+  class kbf
+  {
+    class functions
+    {
+      file = "kbf";
+      class garageCrew {};
+      class garageLoad {};
+      class garageInit {};
+    };
+  };
+};
+
+respawnOnStart = 0;
