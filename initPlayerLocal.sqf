@@ -14,3 +14,12 @@ sleep 1;
 	systemChat "Loadout Saved";  
 	};
 }] call CBA_fnc_addEventHandler;
+
+if (str(player)in ['VN1','VN2','VN3','VN4']) then {
+//[_this select 0, SupportRequester, ArtilleryProvider] call BIS_fnc_addSupportLink;
+//[_this select 0, SupportRequester, TransportProvider] call BIS_fnc_addSupportLink;
+[_this select 0, SupportRequester, AmmoProvider] call BIS_fnc_addSupportLink;
+};
+if (str(player)in ['VN1']) then {
+[_this select 0, SupportRequester1, ArtilleryProvider] call BIS_fnc_addSupportLink;
+};
