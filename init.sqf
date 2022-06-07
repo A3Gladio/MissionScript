@@ -57,3 +57,31 @@ dontremove = _primaryWeapons+_pistols+_launcher+_marksman+_machineguns+_minimin+
 	_types = _types - [ objNull ];
 	BIS_fnc_arsenal_data set [ _forEachIndex, _types ];
 }forEach +BIS_fnc_arsenal_data;
+// Supply Script
+fnc_get3DENLoadout = { 
+    _virtualCargo = [ 
+        [ suppCrate call BIS_fnc_getVirtualWeaponCargo, [] ], 
+        [ suppCrate call BIS_fnc_getVirtualMagazineCargo, [] ], 
+        [ suppCrate call BIS_fnc_getVirtualItemCargo, [] ], 
+        [ suppCrate call BIS_fnc_getVirtualBackpackCargo, [] ] 
+    ]; 
+ 
+    if ( _virtualCargo findIf{ count ( _x select 0 ) > 0 } > -1 ) then { 
+		missionNamespace setVariable [ "loadout", [ _virtualCargo, true ], true ]; 
+    }else{ 
+        missionNamespace setVariable[ "loadout", 
+            [ 
+                [ 
+                    getWeaponCargo suppCrate, 
+                    getMagazineCargo suppCrate, 
+                    getItemCargo suppCrate, 
+                    getBackpackCargo suppCrate 
+                ], 
+                false 
+            ],
+			true
+        ]; 
+    }; 
+}; 
+suppCrate call fnc_get3DENLoadout;
+suppCrate addAction ["Save ReSupply", {suppCrate call fnc_get3DENLoadout;},nil,1,true,true,"","true",4];
