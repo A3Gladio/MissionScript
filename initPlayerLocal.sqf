@@ -1,7 +1,7 @@
 //initPlayerLocal.sqf
 sleep 1; 
 // Order: T.Maker; T.Wilders; F.Napalm; C.Edwards; J.Hart(missing)
-_PermPlayers = ['76561198171611850','76561198076573165','76561198016586636','76561198172531177']
+_PermPlayers = ['76561198171611850','76561198076573165','76561198016586636','76561198172531177'];
 
 
 [ missionNamespace, "arsenalClosed", { 
