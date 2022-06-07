@@ -21,8 +21,8 @@ _playerID = getPlayerUID player;
 if (_playerID in _PermPlayers) then {
 //[_this select 0, SupportRequester, ArtilleryProvider] call BIS_fnc_addSupportLink;
 //[_this select 0, SupportRequester, TransportProvider] call BIS_fnc_addSupportLink;
-[_this select 0, SupportRequester, AmmoProvider] call BIS_fnc_addSupportLink;
-	if (_playerID in ['76561198016586636']) then{
-		[_this select 0, SupportRequester1, ArtilleryProvider] call BIS_fnc_addSupportLink;
+[player, SupportRequester, AmmoProvider] call BIS_fnc_addSupportLink;
+	if (_playerID in ['76561198016586636','76561198076573165']) then{
+		[player, SupportRequester1, ArtilleryProvider] call BIS_fnc_addSupportLink;
 	}
 };
