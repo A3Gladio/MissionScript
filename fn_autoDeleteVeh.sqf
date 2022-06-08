@@ -15,8 +15,6 @@ _i = 0;
 } forEach (crew _veh);
 
 _leave = false;
-_desertedFlag = false;
-_alarm = false;
 _time = 0;
 _timeStart = 0;
 _uav = "VehicleAutonomous" in (typeOf _veh call BIS_fnc_objectType);
@@ -25,10 +23,6 @@ _uavGroup = if (_uav) then {
 } else {
 	grpNull;
 };
-
-{
-  [_x, _deserted_time, _deserted_dist] spawn kbf_fnc_autoDeleteVeh;
-} forEach (attachedObjects _veh);
 
 // Start monitoring the vehicle
 _run = true;
@@ -47,64 +41,8 @@ while {_run} do
 		if ((getPosASL _veh) distance _position > 20 && !_leave) then {
 			_leave = true;
 		};
-
-		_getIn = if ({alive _x && isPlayer _x} count (crew _veh) == 0) then { false; } else { true; };
-		if(_uav) then {
-			if (!isNull ((UAVControl _veh) select 0)) then {
-				_getIn = true;
-				_desertedFlag = false;
-				_alarm = false;
-			} else {
-				_getIn = false;
-			};
-		};
-
-		if (_leave && !_getIn) then
-		{
-			_manCount = 0;
-			{
-				if (_x isKindOf "Man") then {
-					if (alive _x && isPlayer _x) then {
-						_manCount = _manCount + 1;
-					};
-				} else {
-					_manCount = _manCount + ({alive _x && isPlayer _x} count (crew _x));
-				};
-			} forEach (_veh nearEntities [["Man", "Plane", "Helicopter", "Car", "Tank", "Ship", "StaticWeapon"], _deserted_dist]);
-
-			if (_manCount > 0) then {
-				_desertedFlag = false;
-				_alarm = false;
-			};
-
-			//Deserted
-			if (_manCount == 0 && !_desertedFlag) then
-			{
-				_desertedFlag = true;
-				_timeStart = _time;
-				[format["Warning: %1 is deserted.", _vehName]] remoteExec ["systemChat"];
-				sleep 0.1;
-			};
-
-			if ((_time - _timeStart) > (_deserted_time - 60) && _desertedFlag && !_alarm) then
-			{
-				_alarm = true;
-				[format["Warning: %1 will be destroyed within 1 min.", _vehName]] remoteExec ["systemChat"];
-			};
-
-			//If over time, destroy vehicle.
-			if ((_time - _timeStart) > _deserted_time && _desertedFlag) then
-			{
-				[format["Warning:Time up (%1).", _vehName]] remoteExec ["systemChat"];
-				while {alive _veh} do {
-					_veh setDamage ((damage _veh) + 0.2);
-					sleep 1;
-				};
-			};
-		};
-
 		//Delete destroyed vehicle
-	  if !(alive _veh) then
+	  	if !(alive _veh) then
 		{
 			[format["System : %1 is destroyed.", _vehName]] remoteExec ["systemChat"];
 			sleep 30;

@@ -1,8 +1,6 @@
 //initPlayerLocal.sqf
 sleep 1; 
-// Order: T.Maker; T.Wilders; F.Napalm; C.Edwards; J.Hart(missing)
-_PermPlayers = ['76561198171611850','76561198076573165','76561198016586636','76561198172531177'];
-_playerID = getPlayerUID player;
+missionNamespace setVariable ["BIS_fnc_garage_center", objNull, true]; //Fixes Loadout save not showing before garage init
 
 [ missionNamespace, "arsenalClosed", { 
 	if (isNull(missionNamespace getVariable "BIS_fnc_garage_center")) then {
@@ -17,6 +15,10 @@ _playerID = getPlayerUID player;
 	systemChat "Loadout Saved";  
 	};
 }] call CBA_fnc_addEventHandler;
+
+// Order: T.Maker; T.Wilders; F.Napalm; C.Edwards; J.Hart
+_PermPlayers = ['76561198171611850','76561198076573165','76561198016586636','76561198172531177','76561197993479022'];
+_playerID = getPlayerUID player;
 
 if (_playerID in _PermPlayers) then {
 //[_this select 0, SupportRequester, ArtilleryProvider] call BIS_fnc_addSupportLink;
